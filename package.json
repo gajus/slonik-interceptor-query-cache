@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "roarr": "^2.14.3",
-    "slonik": "^19.6.0"
+    "slonik": "^19.7.0"
   },
   "description": "Caches Slonik queries.",
   "devDependencies": {

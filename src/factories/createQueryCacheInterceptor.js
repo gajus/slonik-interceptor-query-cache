@@ -38,17 +38,6 @@ export default (configurationInput?: ConfigurationInputType): InterceptorType =>
   };
 
   return {
-    afterQueryExecution: async (context, query, result) => {
-      const cacheAttributes = context.sandbox.cache && context.sandbox.cache.cacheAttributes;
-
-      if (!cacheAttributes) {
-        return result;
-      }
-
-      await configuration.storage.set(query, cacheAttributes, result);
-
-      return result;
-    },
     beforeQueryExecution: async (context, query) => {
       const cacheAttributes = context.sandbox.cache && context.sandbox.cache.cacheAttributes;
 
@@ -64,6 +53,15 @@ export default (configurationInput?: ConfigurationInputType): InterceptorType =>
         }, 'query is served from cache');
 
         return maybeResult;
+      }
+
+      return null;
+    },
+    beforeQueryResult: async (context, query, result) => {
+      const cacheAttributes = context.sandbox.cache && context.sandbox.cache.cacheAttributes;
+
+      if (cacheAttributes) {
+        await configuration.storage.set(query, cacheAttributes, result);
       }
 
       return null;
