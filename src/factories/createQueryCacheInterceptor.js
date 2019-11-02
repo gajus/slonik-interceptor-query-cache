@@ -39,7 +39,7 @@ export default (configurationInput?: ConfigurationInputType): InterceptorType =>
 
   return {
     afterQueryExecution: async (context, query, result) => {
-      const cacheAttributes = extractCacheAttributes(query.sql);
+      const cacheAttributes = context.sandbox.cache && context.sandbox.cache.cacheAttributes;
 
       if (!cacheAttributes) {
         return result;
@@ -50,7 +50,7 @@ export default (configurationInput?: ConfigurationInputType): InterceptorType =>
       return result;
     },
     beforeQueryExecution: async (context, query) => {
-      const cacheAttributes = extractCacheAttributes(query.sql);
+      const cacheAttributes = context.sandbox.cache && context.sandbox.cache.cacheAttributes;
 
       if (!cacheAttributes) {
         return null;
@@ -65,6 +65,19 @@ export default (configurationInput?: ConfigurationInputType): InterceptorType =>
 
         return maybeResult;
       }
+
+      return null;
+    },
+    beforeTransformQuery: async (context, query) => {
+      const cacheAttributes = extractCacheAttributes(query.sql);
+
+      if (!cacheAttributes) {
+        return null;
+      }
+
+      context.sandbox.cache = {
+        cacheAttributes,
+      };
 
       return null;
     },

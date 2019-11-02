@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "roarr": "^2.14.3",
-    "slonik": "^19.5.0"
+    "slonik": "^19.6.0"
   },
   "description": "Caches Slonik queries.",
   "devDependencies": {
@@ -35,7 +35,7 @@
     "babel-plugin-transform-export-default-name": "^2.0.4",
     "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
-    "eslint-config-canonical": "^17.7.0",
+    "eslint-config-canonical": "^17.8.0",
     "flow-bin": "^0.111.1",
     "flow-copy-source": "^2.0.8",
     "husky": "^3.0.9",
