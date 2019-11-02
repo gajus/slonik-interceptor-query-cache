@@ -70,14 +70,18 @@ const nodeCache = new NodeCache({
   useClones: false,
 });
 
+const hashQuery = (query: QueryType): string => {
+  return JSON.stringify(query);
+};
+
 const interceptors = [
   createQueryCacheInterceptor({
     storage: {
       get: (query) => {
-        return cache.get(JSON.stringify(query)) || null;
+        return cache.get(hashQuery(query)) || null;
       },
       set: (query, cacheAttributes, queryResult) => {
-        cache.set(JSON.stringify(query), queryResult, cacheAttributes.ttl);
+        cache.set(hashQuery(query), queryResult, cacheAttributes.ttl);
       },
     },
   }),
