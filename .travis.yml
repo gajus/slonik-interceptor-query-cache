@@ -4,9 +4,8 @@ node_js:
   - 10
 script:
   - npm run build
-  - npm run test
-  - npm run lint
   - NODE_ENV=test nyc --silent ava
+  - npm run lint
   # - nyc report --reporter=text-lcov | coveralls
   # - nyc check-coverage --lines 50
 after_success:
