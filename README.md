@@ -16,7 +16,7 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 
 ## Behavior
 
-* Does not cache queries inside of a transaction
+* Does not cache queries inside of a transaction.
 
 ## Cache attributes
 
@@ -49,6 +49,7 @@ const pool = await createPool('postgres://', {
     createQueryCacheInterceptor({
       storage: {
         get: (query, cacheAttributes) => {
+          // Returning null results in the query being executed.
           return cache.get(cacheAttributes.id) || null;
         },
         set: (query, cacheAttributes, queryResult) => {
