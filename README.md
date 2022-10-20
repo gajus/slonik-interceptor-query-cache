@@ -61,6 +61,7 @@ const pool = await createPool('postgres://', {
 
 await connection.any(sql`
   -- @cache-ttl 60
+  -- @cache-id 
   SELECT
     id,
     code_alpha_2
