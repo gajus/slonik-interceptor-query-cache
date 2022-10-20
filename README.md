@@ -23,6 +23,7 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 |Cache attribute|Description|Required?|Default|
 |---|---|---|---|
 |`@cache-ttl`|Number (in seconds) to cache the query for.|Yes|N/A|
+|`@cache-id`|ID (`/^[A-Za-z0-9-_]+$/`) that identifies the query.|Yes|N/A|
 
 ### Example usage
 
@@ -43,19 +44,15 @@ const nodeCache = new NodeCache({
   useClones: false,
 });
 
-const hashQuery = (query: QueryType): string => {
-  return JSON.stringify(query);
-};
-
 const pool = await createPool('postgres://', {
   interceptors: [
     createQueryCacheInterceptor({
       storage: {
-        get: (query) => {
-          return cache.get(hashQuery(query)) || null;
+        get: (query, cacheAttributes) => {
+          return cache.get(cacheAttributes.id) || null;
         },
         set: (query, cacheAttributes, queryResult) => {
-          cache.set(hashQuery(query), queryResult, cacheAttributes.ttl);
+          cache.set(cacheAttributes.id, queryResult, cacheAttributes.ttl);
         },
       },
     }),

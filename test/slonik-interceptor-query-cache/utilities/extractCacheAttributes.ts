@@ -7,8 +7,9 @@ test('returns null when query does not contain cache attributes', (t) => {
   t.is(extractCacheAttributes(''), null);
 });
 
-test('extracts @cache-ttl', (t) => {
-  t.deepEqual(extractCacheAttributes('-- @cache-ttl 60'), {
+test('extracts @cache-ttl and @cache-id', (t) => {
+  t.deepEqual(extractCacheAttributes('-- @cache-ttl 60\n-- @cache-id FOO/bar_123'), {
+    id: 'FOO/bar_123',
     ttl: 60,
   });
 });
