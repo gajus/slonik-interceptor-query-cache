@@ -22,7 +22,7 @@ type Sandbox = {
 };
 
 type CacheAttributes = {
-  id?: string,
+  id: string,
   ttl: number,
 };
 
