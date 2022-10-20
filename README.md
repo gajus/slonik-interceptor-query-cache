@@ -1,49 +1,18 @@
 # slonik-interceptor-query-cache
 
-[![Travis build status](http://img.shields.io/travis/gajus/slonik-interceptor-query-cache/master.svg?style=flat-square)](https://travis-ci.org/gajus/slonik-interceptor-query-cache)
+[![Travis build status](http://img.shields.io/travis/gajus/slonik-interceptor-query-cache/master.svg?style=flat-square)](https://travis-ci.com/github/gajus/slonik-interceptor-query-cache)
 [![Coveralls](https://img.shields.io/coveralls/gajus/slonik-interceptor-query-cache.svg?style=flat-square)](https://coveralls.io/github/gajus/slonik-interceptor-query-cache)
 [![NPM version](http://img.shields.io/npm/v/slonik-interceptor-query-cache.svg?style=flat-square)](https://www.npmjs.org/package/slonik-interceptor-query-cache)
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kuizinas.svg?style=social&label=Follow)](https://twitter.com/kuizinas)
 
-Caches [Slonik](https://github.com/gajus/slonik) queries.
+Caches [Slonik](https://github.com/gajus/slonik) query results.
 
 ## Usage
 
 Query cache interceptor is initialised using a custom storage service. The [Example Usage](#example-usage) documentation shows how to create a compatible storage service using [`node-cache`](https://www.npmjs.com/package/node-cache).
 
-Which queries are cached is controlled using cache attributes. Cache attributes are comments starting with `@cache-` prefix. Only queries with cache attributes are cached (see [Cache attributes](#cache-attributes))
-
-## API
-
-```js
-import {
-  createQueryCacheInterceptor
-} from 'slonik-interceptor-query-cache';
-
-```
-
-```js
-type CacheAttributesType = {|
-  +ttl: number,
-|};
-
-type StorageType = {|
-  +get: (query: QueryType, cacheAttributes: CacheAttributesType) => Promise<QueryResultType<QueryResultRowType> | null>,
-  +set: (query: QueryType, cacheAttributes: CacheAttributesType, queryResult: QueryResultType<QueryResultRowType>) => Promise<void>,
-|};
-
-type ConfigurationInputType = {|
-  +storage: StorageType,
-|};
-
-type ConfigurationType = {|
-  +storage: StorageType,
-|};
-
-(configurationInput: ConfigurationInputType) => InterceptorType;
-
-```
+Which queries are cached is controlled using cache attributes. Cache attributes are comments starting with `-- @cache-` prefix. Only queries with cache attributes are cached (see [Cache attributes](#cache-attributes))
 
 ## Cache attributes
 
@@ -74,21 +43,19 @@ const hashQuery = (query: QueryType): string => {
   return JSON.stringify(query);
 };
 
-const interceptors = [
-  createQueryCacheInterceptor({
-    storage: {
-      get: (query) => {
-        return cache.get(hashQuery(query)) || null;
+const pool = await createPool('postgres://', {
+  interceptors: [
+    createQueryCacheInterceptor({
+      storage: {
+        get: (query) => {
+          return cache.get(hashQuery(query)) || null;
+        },
+        set: (query, cacheAttributes, queryResult) => {
+          cache.set(hashQuery(query), queryResult, cacheAttributes.ttl);
+        },
       },
-      set: (query, cacheAttributes, queryResult) => {
-        cache.set(hashQuery(query), queryResult, cacheAttributes.ttl);
-      },
-    },
-  }),
-];
-
-const pool = createPool('postgres://', {
-  interceptors
+    }),
+  ]
 });
 
 await connection.any(sql`
@@ -100,5 +67,4 @@ await connection.any(sql`
   WHERE
     code_alpha_2 = ${countryCode}
 `);
-
 ```

@@ -1,5 +1,3 @@
-// @flow
-
 export {
   createQueryCacheInterceptor,
-} from './factories';
+} from './createQueryCacheInterceptor';

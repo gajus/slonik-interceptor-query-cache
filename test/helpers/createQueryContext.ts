@@ -1,11 +1,8 @@
-// @flow
-
 import type {
   QueryContextType,
 } from 'slonik';
 
 export default (): QueryContextType => {
-  // $FlowFixMe
   return {
     connectionId: '1',
     log: {

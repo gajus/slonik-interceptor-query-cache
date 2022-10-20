@@ -5,44 +5,31 @@
     "url": "http://gajus.com"
   },
   "ava": {
-    "babel": {
-      "compileAsTests": [
-        "test/helpers/**/*"
-      ]
-    },
+    "extensions": [
+      "ts"
+    ],
     "files": [
       "test/slonik-interceptor-query-cache/**/*"
     ],
     "require": [
-      "@babel/register"
+      "ts-node/register/transpile-only"
     ]
   },
-  "dependencies": {
-    "roarr": "^2.15.2",
-    "slonik": "^22.4.0"
-  },
-  "description": "Caches Slonik queries.",
+  "description": "Cache Slonik query results.",
   "devDependencies": {
-    "@ava/babel": "^1.0.1",
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.4",
-    "@babel/plugin-transform-flow-strip-types": "^7.8.3",
-    "@babel/preset-env": "^7.8.4",
-    "@babel/register": "^7.8.3",
-    "ava": "^3.3.0",
-    "babel-plugin-istanbul": "^6.0.0",
-    "babel-plugin-macros": "^2.8.0",
-    "babel-plugin-transform-export-default-name": "^2.0.4",
-    "coveralls": "^3.0.9",
-    "eslint": "^6.8.0",
-    "eslint-config-canonical": "^18.1.1",
-    "flow-bin": "^0.118.0",
-    "flow-copy-source": "^2.0.9",
-    "husky": "^4.2.3",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "ava": "^3.15.0",
+    "coveralls": "^3.1.1",
+    "del-cli": "^4.0.1",
+    "eslint": "^8.4.1",
+    "eslint-config-canonical": "^32.46.0",
+    "husky": "^7.0.4",
     "inline-loops.macro": "^1.2.2",
-    "nyc": "^15.0.0",
-    "semantic-release": "^17.0.3",
-    "sinon": "^8.1.1"
+    "nyc": "^15.1.0",
+    "semantic-release": "^18.0.1",
+    "sinon": "^12.0.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": ">=8.0"
@@ -55,39 +42,26 @@
   "keywords": [
     "postgresql",
     "interceptor",
-    "cache"
+    "format"
   ],
   "license": "BSD-3-Clause",
-  "main": "./dist/index.js",
+  "main": "./dist/src/index.js",
   "name": "slonik-interceptor-query-cache",
-  "nyc": {
-    "all": true,
-    "exclude": [
-      "src/bin",
-      "src/queries/*.js"
-    ],
-    "include": [
-      "src/**/*.js"
-    ],
-    "instrument": false,
-    "reporter": [
-      "html",
-      "text-summary"
-    ],
-    "require": [
-      "@babel/register"
-    ],
-    "silent": true,
-    "sourceMap": false
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gajus/slonik-interceptor-query-cache"
   },
   "scripts": {
-    "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps && flow-copy-source src dist",
-    "lint": "eslint ./src ./test && flow",
+    "build": "del-cli ./dist && tsc",
+    "lint": "eslint ./src ./test && tsc --noEmit",
     "test": "NODE_ENV=test nyc ava --verbose --serial"
   },
-  "version": "1.2.0"
+  "typings": "./dist/src/index.d.ts",
+  "version": "2.0.0",
+  "peerDependencies": {
+    "slonik": ">=27.0.0"
+  },
+  "dependencies": {
+    "roarr": "^7.14.0"
+  }
 }

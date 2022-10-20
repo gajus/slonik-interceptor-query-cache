@@ -1,0 +1,3 @@
+export {
+  createQueryCacheInterceptor,
+} from './factories';
