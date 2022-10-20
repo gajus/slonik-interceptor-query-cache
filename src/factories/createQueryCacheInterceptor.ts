@@ -45,6 +45,10 @@ export const createQueryCacheInterceptor = (configurationInput: ConfigurationInp
 
   return {
     beforeQueryExecution: async (context, query) => {
+      if (context.transactionId) {
+        return null;
+      }
+
       const cacheAttributes = (context.sandbox as Sandbox).cache?.cacheAttributes;
 
       if (!cacheAttributes) {
@@ -64,6 +68,10 @@ export const createQueryCacheInterceptor = (configurationInput: ConfigurationInp
       return null;
     },
     beforeQueryResult: async (context, query, result) => {
+      if (context.transactionId) {
+        return null;
+      }
+
       const cacheAttributes = (context.sandbox as Sandbox).cache?.cacheAttributes;
 
       if (cacheAttributes) {
@@ -73,6 +81,10 @@ export const createQueryCacheInterceptor = (configurationInput: ConfigurationInp
       return null;
     },
     beforeTransformQuery: async (context, query) => {
+      if (context.transactionId) {
+        return null;
+      }
+
       const cacheAttributes = extractCacheAttributes(query.sql);
 
       if (!cacheAttributes) {

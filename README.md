@@ -14,6 +14,10 @@ Query cache interceptor is initialised using a custom storage service. The [Exam
 
 Which queries are cached is controlled using cache attributes. Cache attributes are comments starting with `-- @cache-` prefix. Only queries with cache attributes are cached (see [Cache attributes](#cache-attributes))
 
+## Behavior
+
+* Does not cache queries inside of a transaction
+
 ## Cache attributes
 
 |Cache attribute|Description|Required?|Default|
