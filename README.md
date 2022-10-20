@@ -17,6 +17,7 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 ## Behavior
 
 * Does not cache queries inside of a transaction.
+* Does not take into account query parameters.
 
 ## Cache attributes
 
