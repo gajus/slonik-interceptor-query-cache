@@ -17,14 +17,14 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 ## Behavior
 
 * Does not cache queries inside of a transaction.
-* Does not take into account query parameters.
+* Does not take into account the query parameters.
 
 ## Cache attributes
 
 |Cache attribute|Description|Required?|Default|
 |---|---|---|---|
 |`@cache-ttl`|Number (in seconds) to cache the query for.|Yes|N/A|
-|`@cache-id`|ID (`/^[A-Za-z0-9-_]+$/`) that identifies the query.|Yes|N/A|
+|`@cache-key`|Key (`/^[A-Za-z0-9\-_:]+$/`) that uniquely identifies the query.|Yes|N/A|
 
 ### Example usage
 
@@ -51,10 +51,10 @@ const pool = await createPool('postgres://', {
       storage: {
         get: (query, cacheAttributes) => {
           // Returning null results in the query being executed.
-          return cache.get(cacheAttributes.id) || null;
+          return cache.get(cacheAttributes.key) || null;
         },
         set: (query, cacheAttributes, queryResult) => {
-          cache.set(cacheAttributes.id, queryResult, cacheAttributes.ttl);
+          cache.set(cacheAttributes.key, queryResult, cacheAttributes.ttl);
         },
       },
     }),
@@ -63,7 +63,7 @@ const pool = await createPool('postgres://', {
 
 await connection.any(sql`
   -- @cache-ttl 60
-  -- @cache-id foo
+  -- @cache-key foo
   SELECT
     id,
     code_alpha_2
