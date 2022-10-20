@@ -1,8 +1,8 @@
-import type {
-  QueryContextType,
+import {
+  type QueryContext,
 } from 'slonik';
 
-export default (): QueryContextType => {
+export default () => {
   return {
     connectionId: '1',
     log: {
@@ -14,5 +14,5 @@ export default (): QueryContextType => {
       },
     },
     poolId: '1',
-  };
+  } as unknown as QueryContext;
 };
