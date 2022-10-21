@@ -15,7 +15,7 @@ export const extractCacheAttributes = (subject: string, values: readonly Primiti
       throw new Error('@cache-key must be specified when @cache-ttl is specified.');
     }
 
-    if (!/-- @cache-hash-values false/ui.test(subject)) {
+    if (!/-- @cache-hash-values false/ui.test(subject) && values.length > 0) {
       key += ':' + createHash('sha256').update(JSON.stringify(values)).digest('hex');
     }
 
