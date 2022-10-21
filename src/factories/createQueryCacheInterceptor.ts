@@ -86,7 +86,7 @@ export const createQueryCacheInterceptor = (configurationInput: ConfigurationInp
         return null;
       }
 
-      const cacheAttributes = extractCacheAttributes(query.sql);
+      const cacheAttributes = extractCacheAttributes(query.sql, query.values);
 
       if (!cacheAttributes) {
         return null;

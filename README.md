@@ -17,7 +17,6 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 ## Behavior
 
 * Does not cache queries inside of a transaction.
-* Does not take into account the query parameters.
 
 ## Cache attributes
 
@@ -25,6 +24,7 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 |---|---|---|---|
 |`@cache-ttl`|Number (in seconds) to cache the query for.|Yes|N/A|
 |`@cache-key`|Key (`/^[A-Za-z0-9\-_:]+$/`) that uniquely identifies the query.|Yes|N/A|
+|`@cache-hash-values`|Sets this value to `false` to ignore values and only use `@cache-key`.|No|`true`|
 
 ### Example usage
 
