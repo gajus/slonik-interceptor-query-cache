@@ -1,15 +1,15 @@
-import type {
-  Interceptor,
-  Query,
-  QueryResultRow,
-  QueryResult,
-} from 'slonik';
 import {
   Logger,
 } from '../Logger';
 import {
   extractCacheAttributes,
 } from '../utilities';
+import {
+  type Interceptor,
+  type Query,
+  type QueryResult,
+  type QueryResultRow,
+} from 'slonik';
 
 const log = Logger.child({
   namespace: 'createQueryCacheInterceptor',

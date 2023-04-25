@@ -1,8 +1,8 @@
 import {
   createHash,
 } from 'node:crypto';
-import type {
-  PrimitiveValueExpression,
+import {
+  type PrimitiveValueExpression,
 } from 'slonik';
 
 export const extractCacheAttributes = (subject: string, values: readonly PrimitiveValueExpression[]) => {
