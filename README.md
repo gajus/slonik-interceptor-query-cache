@@ -18,7 +18,7 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 
 ## Cache attributes
 
-### `@cache-ttl`
+#### `@cache-ttl`
 
 |Required|Format|Default|
 |---|---|---|
@@ -26,7 +26,7 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 
 Number (in seconds) to cache the query for.
 
-### `@cache-key`
+#### `@cache-key`
 
 |Required|Format|Default|
 |---|---|---|
@@ -38,7 +38,7 @@ If present, `$bodyHash` is substituted with the hash of the query (comments and 
 
 If present, `$valueHash` is substituted with the hash of the parameter values.
 
-### `@cache-discard-empty`
+#### `@cache-discard-empty`
 
 |Required|Format|Default|
 |---|---|---|
