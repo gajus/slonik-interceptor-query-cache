@@ -28,8 +28,8 @@
     "nyc": "^15.1.0",
     "semantic-release": "^18.0.1",
     "sinon": "^12.0.1",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.7.4"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   },
   "engines": {
     "node": ">=8.0"
