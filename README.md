@@ -18,17 +18,33 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 
 ## Cache attributes
 
-|Cache attribute|Description|Required?|Format|Default|
-|---|---|---|---|---|
-|`@cache-ttl`|Number (in seconds) to cache the query for.|Yes|`/^d+$/`|N/A|
-|`@cache-key`|Cache key that uniquelly identifies the query.|No|`/^[$A-Za-z0-9\-_:]+$/`|`$bodyHash:$valueHash`|
-|`@cache-discard-empty`|If set to `true`, then `storage.set` is not invoked when query produces no results.|No|`/^(false|true)$/`|`false`|
+### `@cache-ttl`
+
+|Required|Format|Default|
+|---|---|---|
+|Yes|`/^d+$/`|N/A|
+
+Number (in seconds) to cache the query for.
 
 ### `@cache-key`
 
-Overrides the default cache key that uniquely identifies the query.
+|Required|Format|Default|
+|---|---|---|
+|No|`/^[$A-Za-z0-9\-_:]+$/`|`$bodyHash:$valueHash`|
 
-If present, `$bodyHash` is substituted with the hash of the query (comments and white-spaces are stripped before hashing the query). `$valueHash` is substituted with the hash of the parameter values.
+Cache key that uniquely identifies the query.
+
+If present, `$bodyHash` is substituted with the hash of the query (comments and white-spaces are stripped before hashing the query).
+
+If present, `$valueHash` is substituted with the hash of the parameter values.
+
+### `@cache-discard-empty`
+
+|Required|Format|Default|
+|---|---|---|
+|No|`/^(false|true)$/`|`false`|
+
+If set to `true`, then `storage.set` is not invoked when query produces no results.
 
 ### Example usage
 
