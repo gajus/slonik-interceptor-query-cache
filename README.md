@@ -80,10 +80,26 @@ const pool = await createPool('postgres://', {
     }),
   ]
 });
+```
 
+These are example queries:
+
+```ts
 // Caches the query results based on a combination of the query hash and the parameter value hash.
 await connection.any(sql`
   -- @cache-ttl 60
+  SELECT
+    id,
+    code_alpha_2
+  FROM country
+  WHERE
+    code_alpha_2 = ${countryCode}
+`);
+
+// Does not cache the result when query produces no results.
+await connection.any(sql`
+  -- @cache-ttl 60
+  -- @cache-discard-empty true
   SELECT
     id,
     code_alpha_2
