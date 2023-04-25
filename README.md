@@ -21,8 +21,14 @@ Which queries are cached is controlled using cache attributes. Cache attributes 
 |Cache attribute|Description|Required?|Format|Default|
 |---|---|---|---|---|
 |`@cache-ttl`|Number (in seconds) to cache the query for.|Yes|`/^d+$/`|N/A|
-|`@cache-key`|Uniquelly identifies the query. Overrides the default cache key that uniquely identifies the query. If present, `$bodyHash` is substituted with the hash of the query (comments and white-spaces are stripped before hashing the query). `$valueHash` is substituted with the hash of the parameter values.|No|`/^[$A-Za-z0-9\-_:]+$/`|`$bodyHash:$valueHash`|
+|`@cache-key`|Cache key that uniquelly identifies the query.|No|`/^[$A-Za-z0-9\-_:]+$/`|`$bodyHash:$valueHash`|
 |`@cache-discard-empty`|If set to `true`, then `storage.set` is not invoked when query produces no results.|No|`/^(false|true)$/`|`false`|
+
+### `@cache-key`
+
+Overrides the default cache key that uniquely identifies the query.
+
+If present, `$bodyHash` is substituted with the hash of the query (comments and white-spaces are stripped before hashing the query). `$valueHash` is substituted with the hash of the parameter values.
 
 ### Example usage
 
