@@ -3,11 +3,8 @@ dist
 node_modules
 *.log
 .*
-!.eslintignore
 !.eslintrc
-!.flowconfig
 !.github
 !.gitignore
 !.husky
-!.npmignore
 !.releaserc

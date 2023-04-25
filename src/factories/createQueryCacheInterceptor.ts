@@ -1,9 +1,5 @@
-import {
-  Logger,
-} from '../Logger';
-import {
-  extractCacheAttributes,
-} from '../utilities';
+import { Logger } from '../Logger';
+import { extractCacheAttributes, normalizeCacheAttributes } from '../utilities';
 import {
   type Interceptor,
   type Query,
@@ -17,29 +13,38 @@ const log = Logger.child({
 
 type Sandbox = {
   cache: {
-    cacheAttributes: CacheAttributes,
-  },
+    cacheAttributes: CacheAttributes;
+  };
 };
 
-type CacheAttributes = {
-  key: string,
-  ttl: number,
+export type CacheAttributes = {
+  key: string;
+  ttl: number;
 };
 
 type Storage = {
-  get: (query: Query, cacheAttributes: CacheAttributes) => Promise<QueryResult<QueryResultRow> | null>,
-  set: (query: Query, cacheAttributes: CacheAttributes, queryResult: QueryResult<QueryResultRow>) => Promise<void>,
+  get: (
+    query: Query,
+    cacheAttributes: CacheAttributes,
+  ) => Promise<QueryResult<QueryResultRow> | null>;
+  set: (
+    query: Query,
+    cacheAttributes: CacheAttributes,
+    queryResult: QueryResult<QueryResultRow>,
+  ) => Promise<void>;
 };
 
 type ConfigurationInput = {
-  storage: Storage,
+  storage: Storage;
 };
 
 type Configuration = {
-  storage: Storage,
+  storage: Storage;
 };
 
-export const createQueryCacheInterceptor = (configurationInput: ConfigurationInput): Interceptor => {
+export const createQueryCacheInterceptor = (
+  configurationInput: ConfigurationInput,
+): Interceptor => {
   const configuration: Configuration = {
     ...configurationInput,
   };
@@ -50,18 +55,25 @@ export const createQueryCacheInterceptor = (configurationInput: ConfigurationInp
         return null;
       }
 
-      const cacheAttributes = (context.sandbox as Sandbox).cache?.cacheAttributes;
+      const cacheAttributes = (context.sandbox as Sandbox).cache
+        ?.cacheAttributes;
 
       if (!cacheAttributes) {
         return null;
       }
 
-      const maybeResult = await configuration.storage.get(query, cacheAttributes);
+      const maybeResult = await configuration.storage.get(
+        query,
+        cacheAttributes,
+      );
 
       if (maybeResult) {
-        log.info({
-          queryId: context.queryId,
-        }, 'query is served from cache');
+        log.info(
+          {
+            queryId: context.queryId,
+          },
+          'query is served from cache',
+        );
 
         return maybeResult;
       }
@@ -73,7 +85,8 @@ export const createQueryCacheInterceptor = (configurationInput: ConfigurationInp
         return null;
       }
 
-      const cacheAttributes = (context.sandbox as Sandbox).cache?.cacheAttributes;
+      const cacheAttributes = (context.sandbox as Sandbox).cache
+        ?.cacheAttributes;
 
       if (cacheAttributes) {
         await configuration.storage.set(query, cacheAttributes, result);
@@ -86,11 +99,18 @@ export const createQueryCacheInterceptor = (configurationInput: ConfigurationInp
         return null;
       }
 
-      const cacheAttributes = extractCacheAttributes(query.sql, query.values);
+      const extractedCacheAttributes = extractCacheAttributes(
+        query.sql,
+        query.values,
+      );
 
-      if (!cacheAttributes) {
+      if (!extractedCacheAttributes) {
         return null;
       }
+
+      const cacheAttributes = normalizeCacheAttributes(
+        extractedCacheAttributes,
+      );
 
       context.sandbox.cache = {
         cacheAttributes,

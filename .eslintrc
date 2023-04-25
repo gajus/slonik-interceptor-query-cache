@@ -1,11 +1,20 @@
 {
-  "extends": [
-    "canonical",
-    "canonical/node",
-    "canonical/typescript"
+  "extends": "canonical/auto",
+  "ignorePatterns": [
+    "dist",
+    "package-lock.json"
   ],
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
+  "overrides": [
+    {
+      "files": "*.ts",
+      "rules": {
+        "import/no-cycle": 0
+      }
+    },
+    {
+      "files": "*.test.ts",
+      "extends": ["canonical/ava"]
+    }
+  ],
   "root": true
 }

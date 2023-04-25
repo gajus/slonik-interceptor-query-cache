@@ -1,6 +1,4 @@
-import {
-  type QueryContext,
-} from 'slonik';
+import { type QueryContext } from 'slonik';
 
 export default () => {
   return {

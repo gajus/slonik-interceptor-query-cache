@@ -1,3 +1,2 @@
-export {
-  extractCacheAttributes,
-} from './extractCacheAttributes';
+export { extractCacheAttributes } from './extractCacheAttributes';
+export { normalizeCacheAttributes } from './normalizeCacheAttributes';

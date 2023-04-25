@@ -1,3 +1,1 @@
-export {
-  createQueryCacheInterceptor,
-} from './createQueryCacheInterceptor';
+export { createQueryCacheInterceptor } from './createQueryCacheInterceptor';

@@ -1,33 +1,42 @@
-import {
-  createHash,
-} from 'node:crypto';
-import {
-  type PrimitiveValueExpression,
-} from 'slonik';
+import { createHash } from 'node:crypto';
+import { type PrimitiveValueExpression } from 'slonik';
 import stripComments from 'strip-comments';
 
 const hash = (subject: string) => {
-  return createHash('sha256').update(subject).digest('hex');
+  return createHash('shake256', {
+    outputLength: 12,
+  })
+    .update(subject)
+    .digest('hex');
 };
 
-export const extractCacheAttributes = (subject: string, values: readonly PrimitiveValueExpression[]) => {
+export type ExtractedCacheAttributes = {
+  bodyHash: string;
+  key: string;
+  ttl: number;
+  valueHash: string;
+};
+
+// TODO throw an error if an unknown attribute is used
+export const extractCacheAttributes = (
+  subject: string,
+  values: readonly PrimitiveValueExpression[],
+): ExtractedCacheAttributes | null => {
   const ttl = /-- @cache-ttl (\d+)/u.exec(subject)?.[1];
 
-  let valueHash: string | null = null;
-
   // https://github.com/jonschlinkert/strip-comments/issues/71
-  const bodyHash = hash(stripComments(subject).replaceAll(/^\s*--.*$/ugm, '').replaceAll(/\s/gu, ''));
+  const bodyHash = hash(
+    stripComments(subject)
+      .replaceAll(/^\s*--.*$/gmu, '')
+      .replaceAll(/\s/gu, ''),
+  );
+
+  const valueHash = hash(JSON.stringify(values));
 
   if (ttl) {
-    const key = /-- @cache-key ([a-zA-Z0-9\-_:/]+)/ui.exec(subject)?.[1];
-
-    if (!key) {
-      throw new Error('@cache-key must be specified when @cache-ttl is specified.');
-    }
-
-    if (!/-- @cache-hash-values false/ui.test(subject) && values.length > 0) {
-      valueHash = hash(JSON.stringify(values));
-    }
+    const key =
+      /-- @cache-key ([$\w\-:/]+)/iu.exec(subject)?.[1] ??
+      'query:$bodyHash:$valueHash';
 
     return {
       bodyHash,

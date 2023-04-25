@@ -9,11 +9,15 @@
       "ts"
     ],
     "files": [
-      "test/slonik-interceptor-query-cache/**/*"
+      "src/**/*.test.ts"
     ],
     "require": [
       "ts-node/register/transpile-only"
     ]
+  },
+  "dependencies": {
+    "roarr": "^7.14.0",
+    "strip-comments": "^2.0.1"
   },
   "description": "Cache Slonik query results.",
   "devDependencies": {
@@ -37,6 +41,9 @@
   "engines": {
     "node": ">=16.0"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "postgresql",
     "interceptor",
@@ -45,24 +52,20 @@
   "license": "BSD-3-Clause",
   "main": "./dist/src/index.js",
   "name": "slonik-interceptor-query-cache",
+  "peerDependencies": {
+    "slonik": ">=27.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gajus/slonik-interceptor-query-cache"
   },
   "scripts": {
     "build": "del-cli ./dist && tsc",
-    "lint:eslint": "eslint ./src ./test",
+    "lint:eslint": "eslint .",
     "lint:tsc": "tsc --noEmit",
-    "test:ava": "nyc ava --verbose --serial",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test:ava": "nyc ava --verbose --serial"
   },
   "typings": "./dist/src/index.d.ts",
-  "version": "2.0.0",
-  "peerDependencies": {
-    "slonik": ">=27.0.0"
-  },
-  "dependencies": {
-    "roarr": "^7.14.0",
-    "strip-comments": "^2.0.1"
-  }
+  "version": "2.0.0"
 }
