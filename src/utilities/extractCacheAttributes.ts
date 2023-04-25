@@ -5,6 +5,10 @@ import {
   type PrimitiveValueExpression,
 } from 'slonik';
 
+const hash = (subject: string) => {
+  return createHash('sha256').update(subject).digest('hex');
+};
+
 export const extractCacheAttributes = (subject: string, values: readonly PrimitiveValueExpression[]) => {
   const ttl = /-- @cache-ttl (\d+)/u.exec(subject)?.[1];
 
@@ -16,7 +20,7 @@ export const extractCacheAttributes = (subject: string, values: readonly Primiti
     }
 
     if (!/-- @cache-hash-values false/ui.test(subject) && values.length > 0) {
-      key += ':' + createHash('sha256').update(JSON.stringify(values)).digest('hex');
+      key += ':' + hash(JSON.stringify(values));
     }
 
     return {
