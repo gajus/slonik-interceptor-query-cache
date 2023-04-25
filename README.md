@@ -42,7 +42,7 @@ If present, `$valueHash` is substituted with the hash of the parameter values.
 
 |Required|Format|Default|
 |---|---|---|
-|No|`/^(false|true)$/`|`false`|
+|No|`/^(false\|true)$/`|`false`|
 
 If set to `true`, then `storage.set` is not invoked when query produces no results.
 
