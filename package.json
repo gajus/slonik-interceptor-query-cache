@@ -27,7 +27,6 @@
     "@semantic-release/npm": "^9.0.2",
     "ava": "^3.15.0",
     "coveralls": "^3.1.1",
-    "del-cli": "^4.0.1",
     "eslint": "^8.39.0",
     "eslint-config-canonical": "^41.0.3",
     "husky": "^8.0.0",
@@ -50,7 +49,7 @@
     "format"
   ],
   "license": "BSD-3-Clause",
-  "main": "./dist/src/index.js",
+  "main": "./dist/index.js",
   "name": "slonik-interceptor-query-cache",
   "peerDependencies": {
     "slonik": ">=27.0.0"
@@ -60,12 +59,12 @@
     "url": "https://github.com/gajus/slonik-interceptor-query-cache"
   },
   "scripts": {
-    "build": "del-cli ./dist && tsc",
+    "build": "rm -fr ./dist && tsc --project tsconfig.build.json",
     "lint:eslint": "eslint .",
-    "lint:tsc": "tsc --noEmit",
+    "lint:tsc": "tsc",
     "prepare": "husky install",
     "test:ava": "nyc ava --verbose --serial"
   },
-  "typings": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "version": "2.0.0"
 }

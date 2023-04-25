@@ -2,25 +2,23 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es2021"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
+    "noEmit": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "outDir": "dist",
     "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
-    "target": "es2021"
+    "target": "es2021",
+    "useUnknownInCatchVariables": false
   },
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
   "include": [
-    "src",
-    "test"
+    "src"
   ]
 }
