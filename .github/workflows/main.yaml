@@ -16,10 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run lint:eslint
       - run: npm run lint:tsc
-      - run: npm run lint:cspell
-      - env:
-          ROARR_LOG: 'true'
-        run: npm run test:vitest
+      - run: npm run test:ava
       - run: npm run build
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

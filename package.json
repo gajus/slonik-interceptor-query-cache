@@ -56,8 +56,9 @@
   },
   "scripts": {
     "build": "del-cli ./dist && tsc",
-    "lint": "eslint ./src ./test && tsc --noEmit",
-    "test": "NODE_ENV=test nyc ava --verbose --serial"
+    "lint:eslint": "eslint ./src ./test",
+    "lint:tsc": "tsc --noEmit",
+    "test:ava": "nyc ava --verbose --serial"
   },
   "typings": "./dist/src/index.d.ts",
   "version": "2.0.0",

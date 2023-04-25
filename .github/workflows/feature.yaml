@@ -16,7 +16,6 @@ jobs:
       - run: npm ci
       - run: npm run lint:eslint
       - run: npm run lint:tsc
-      - run: npm run lint:cspell
     timeout-minutes: 10
   test:
     environment: release
@@ -35,17 +34,14 @@ jobs:
           cache: 'npm'
           node-version: ${{ matrix.version }}
       - run: npm ci
-      - env:
-          ROARR_LOG: 'true'
-        run: npm run test:vitest
+      - run: npm run test:ava
       - run: npm run build
     strategy:
       matrix:
         os:
           - ubuntu-latest
         version:
-          - 18
-          - 19
+          - 20
     timeout-minutes: 10
 name: Test and build
 on:
