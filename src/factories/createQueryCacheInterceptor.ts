@@ -18,6 +18,7 @@ type Sandbox = {
 };
 
 export type CacheAttributes = {
+  discardEmpty: boolean;
   key: string;
   ttl: number;
 };
@@ -68,7 +69,7 @@ export const createQueryCacheInterceptor = (
       );
 
       if (maybeResult) {
-        log.info(
+        log.debug(
           {
             queryId: context.queryId,
           },
@@ -89,7 +90,13 @@ export const createQueryCacheInterceptor = (
         ?.cacheAttributes;
 
       if (cacheAttributes) {
-        await configuration.storage.set(query, cacheAttributes, result);
+        if (cacheAttributes.discardEmpty && result.rowCount === 0) {
+          log.debug(
+            '@cache-discard-empty is set and the query result is empty; not caching',
+          );
+        } else {
+          await configuration.storage.set(query, cacheAttributes, result);
+        }
       }
 
       return null;

@@ -12,6 +12,7 @@ const hash = (subject: string) => {
 
 export type ExtractedCacheAttributes = {
   bodyHash: string;
+  discardEmpty: boolean;
   key: string;
   ttl: number;
   valueHash: string;
@@ -31,6 +32,10 @@ export const extractCacheAttributes = (
       .replaceAll(/\s/gu, ''),
   );
 
+  const discardEmpty =
+    (/-- @cache-discard-empty (true|false)/u.exec(subject)?.[1] ?? 'false') ===
+    'true';
+
   const valueHash = hash(JSON.stringify(values));
 
   if (ttl) {
@@ -40,6 +45,7 @@ export const extractCacheAttributes = (
 
     return {
       bodyHash,
+      discardEmpty,
       key,
       ttl: Number(ttl),
       valueHash,
