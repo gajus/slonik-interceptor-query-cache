@@ -41,6 +41,7 @@
     "node": ">=16.0"
   },
   "files": [
+    "src",
     "dist"
   ],
   "keywords": [
