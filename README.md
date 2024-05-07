@@ -6,6 +6,9 @@
 
 Caches [Slonik](https://github.com/gajus/slonik) query results.
 
+> [!WARNING]
+> Deprecated in favor of https://github.com/gajus/slonik monorepo.
+
 ## Usage
 
 Query cache interceptor is initialized using a custom storage service. The [Example Usage](#example-usage) documentation shows how to create a compatible storage service using [`node-cache`](https://www.npmjs.com/package/node-cache).
